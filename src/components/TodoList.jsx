@@ -1,10 +1,23 @@
+import { useQuery } from "@tanstack/react-query";
+import { todoApi } from "../api/todos";
 import { useNavigate } from "react-router-dom";
 
-export default function TodoList({ todos }) {
+export default function TodoList() {
   const navigate = useNavigate();
+
+  const fetchData = async () => {
+    const response = await todoApi.get("/todos");
+    return response.data;
+  };
+
+  const { data } = useQuery({
+    queryKey: ["todos"],
+    queryFn: fetchData,
+  });
+
   return (
     <ul style={{ listStyle: "none", width: 250 }}>
-      {todos.map((todo) => (
+      {data.map((todo) => (
         <li
           key={todo.id}
           style={{
