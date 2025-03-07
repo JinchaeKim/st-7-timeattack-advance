@@ -9,7 +9,7 @@ export default function Detail() {
   // TODO: 필수: useQuery 로 리팩터링 하세요.
   // TODO: 선택: useQuery 로 리팩터링 후, useTodoQuery 커스텀훅으로 정리해 보세요.
 
-  const fetchData = async () => {
+  const fetchDataDetail = async () => {
     const response = await todoApi.get(`/todos/${id}`);
     return response.data;
   };
@@ -19,8 +19,8 @@ export default function Detail() {
     isPending: isLoading,
     isError: error,
   } = useQuery({
-    queryKey: ["todos"],
-    queryFn: fetchData,
+    queryKey: ["todos-detail"],
+    queryFn: fetchDataDetail,
   });
 
   if (isLoading) return <div style={{ fontSize: 36 }}>로딩중...</div>;

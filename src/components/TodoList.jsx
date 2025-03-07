@@ -10,14 +10,29 @@ export default function TodoList() {
     return response.data;
   };
 
-  const { data } = useQuery({
+  const {
+    data: todos = [],
+    isPending: isLoading,
+    isError: error,
+  } = useQuery({
     queryKey: ["todos"],
     queryFn: fetchData,
   });
 
+  if (isLoading) {
+    return <div style={{ fontSize: 36 }}>로딩중...</div>;
+  }
+
+  if (error) {
+    console.error(error);
+    return (
+      <div style={{ fontSize: 24 }}>에러가 발생했습니다: {error.message}</div>
+    );
+  }
+
   return (
     <ul style={{ listStyle: "none", width: 250 }}>
-      {data.map((todo) => (
+      {todos.map((todo) => (
         <li
           key={todo.id}
           style={{
